@@ -1,0 +1,20 @@
+root = true
+
+
+# General
+
+[*]
+indent_style = space
+indent_size = 4
+tab_width = 4
+
+
+# C#
+
+[*.cs]
+
+# Roslyn indentation rules without direct Rider equivalents
+
+csharp_indent_block_contents = true
+csharp_indent_case_contents = true
+csharp_indent_case_contents_when_block = true

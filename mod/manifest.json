@@ -1,0 +1,10 @@
+{
+    "id": "quick-recall",
+    "name": "Quick Recall",
+    "version": "1.0.0",
+    "author": "Escarval",
+    "description": "Use recall items from your inventory with a customizable hotkey.",
+    "entry_dll": "QuickRecall.dll",
+    "framework_version": ">=0.4.1",
+    "terraria_version": "1.4.5"
+}

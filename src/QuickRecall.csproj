@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net48</TargetFramework>
+        <OutputType>Library</OutputType>
+        <RootNamespace>QuickRecall</RootNamespace>
+        <AssemblyName>QuickRecall</AssemblyName>
+        <Version>1.0.0</Version>
+        <Platforms>AnyCPU</Platforms>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <Deterministic>true</Deterministic>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    </PropertyGroup>
+
+    <Import Project="$(MSBuildProjectDirectory)\QuickRecall.Local.props" Condition="Exists('$(MSBuildProjectDirectory)\QuickRecall.Local.props')"/>
+
+    <PropertyGroup>
+        <CoreDllPath Condition="'$(CoreDllPath)' == '' and '$(TerrariaDirectory)' != ''">$(TerrariaDirectory)\TerrariaModder\core\TerrariaModder.Core.dll</CoreDllPath>
+        <HarmonyDllPath Condition="'$(HarmonyDllPath)' == '' and '$(CoreDllPath)' != ''">$([System.IO.Path]::Combine($([System.IO.Path]::GetDirectoryName('$(CoreDllPath)')), 'deps', '0Harmony.dll'))</HarmonyDllPath>
+        <DeployToGame Condition="'$(DeployToGame)' == ''">false</DeployToGame>
+        <TerrariaModDirectory Condition="'$(TerrariaModDirectory)' == '' and '$(TerrariaDirectory)' != ''">$(TerrariaDirectory)\TerrariaModder\mods\quick-recall</TerrariaModDirectory>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="0Harmony">
+            <HintPath>$(HarmonyDllPath)</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.Xna.Framework.Content.Pipeline">
+            <HintPath>$(TerrariaDirectory)\Microsoft.Xna.Framework.Content.Pipeline.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553">
+            <HintPath>$(XnaFrameworkGameDll)</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Terraria">
+            <HintPath>$(TerrariaDirectory)\Terraria.exe</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="TerrariaModder.Core">
+            <HintPath>$(CoreDllPath)</HintPath>
+            <Private>False</Private>
+        </Reference>
+    </ItemGroup>
+
+    <Target Name="DeployQuickRecallToGame" AfterTargets="Build" Condition="'$(DeployToGame)' == 'true'">
+        <Error Condition="'$(TerrariaModDirectory)' == ''" Text="TerrariaModDirectory must be set when DeployToGame=true."/>
+        <Error Condition="!Exists('$(MSBuildProjectDirectory)\..\mod\manifest.json')" Text="QuickRecall manifest.json is missing."/>
+        <MakeDir Directories="$(TerrariaModDirectory)"/>
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(TerrariaModDirectory)" SkipUnchangedFiles="true"/>
+        <Copy SourceFiles="$(MSBuildProjectDirectory)\..\mod\manifest.json" DestinationFolder="$(TerrariaModDirectory)" SkipUnchangedFiles="true"/>
+    </Target>
+</Project>

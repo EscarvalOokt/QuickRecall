@@ -1,0 +1,14 @@
+# Machine-specific build settings
+/src/*.Local.props
+
+# Build output
+**/bin/
+**/obj/
+
+# IDE state
+.idea/
+.vs/
+
+# Local and release documentation
+/docs/local/
+/docs/release/

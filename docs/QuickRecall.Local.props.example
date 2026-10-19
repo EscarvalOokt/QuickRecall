@@ -1,0 +1,12 @@
+<Project>
+    <PropertyGroup>
+        <TerrariaDirectory>PATH_TO_TERRARIA_DIRECTORY</TerrariaDirectory>
+
+        <CoreDllPath>$(TerrariaDirectory)\TerrariaModder\core\TerrariaModder.Core.dll</CoreDllPath>
+
+        <XnaFrameworkGameDll>PATH_TO_MICROSOFT_XNA_FRAMEWORK_GAME_DLL</XnaFrameworkGameDll>
+
+        <DeployToGame>true</DeployToGame>
+        <TerrariaModDirectory>$(TerrariaDirectory)\TerrariaModder\mods\quick-recall</TerrariaModDirectory>
+    </PropertyGroup>
+</Project>
